@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Storage Example</title>
+
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+   function suc(){
+        onDeviceReady();
+    }
+
+    // Wait for device API libraries to load
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // device APIs are available
+    //
+    function onDeviceReady() {
+        var a = document.getElementById('try1').value;
+        var b = document.getElementById('try2').value;
+        var c = document.getElementById('try3').value;
+        var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+        db.transaction(populateDB, errorCB, successCB);
+
+
+    }
+
+    // Populate the database
+    //
+    function populateDB(tx) {
+        tx.executeSql('DROP TABLE IF EXISTS DEMO')
+        tx.executeSql('DROP TABLE IF EXISTS twp')
+        tx.executeSql('CREATE TABLE IF NOT EXISTS TwoWheeler(id unique, data, data1)');
+
+        var a = document.getElementById('try1').value;
+        var b = document.getElementById('try2').value;
+        var c = document.getElementById('try3').value;
+        tx.executeSql("INSERT INTO DEMO (id, data, data1) TwoWheeler ('"+ a + "' ,'"+ b +"','"+c+"')");
+
+    }
+
+    // Transaction error callback
+    //
+    function errorCB(tx, err) {
+        //
+    }
+
+    // Transaction success callback
+    //
+    function successCB() {
+        alert("success!");
+    }
+
+
+    </script>
+</head>
+<body>
+    <h1>Example</h1>
+    <p>Database</p>
+    <form id="myform">
+        <input type="number" id="try1" value="try1" /><br />
+        <input type="text" id="try2" value="try2" /><br />
+        <input type="text" id="try3" value="try3" /><br />
+        <input id="subm" type="submit" value="Insert" onclick="suc();"><br />
+    </form>
+</body>
+</html> 
